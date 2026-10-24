@@ -1,0 +1,91 @@
+.note-form {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  background: white;
+  border: 1px solid #e7e5e4;
+  border-radius: 12px;
+  padding: 20px;
+  margin: 16px 0;
+}
+
+.note-form__heading {
+  font-size: 1.2rem;
+  margin-bottom: 4px;
+}
+
+.note-form label {
+  font-weight: 600;
+  font-size: 0.9rem;
+}
+
+.note-form__label-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+}
+
+.note-form__counter {
+  font-size: 0.8rem;
+  color: #a8a29e;
+}
+
+.note-form__counter--warn {
+  color: #b91c1c;
+  font-weight: 600;
+}
+
+.note-form input[type="text"],
+.note-form textarea {
+  width: 100%;
+  padding: 10px 12px;
+  border: 1px solid #d6d3d1;
+  border-radius: 8px;
+  font: inherit;
+}
+
+.note-form textarea {
+  resize: vertical;
+}
+
+.note-form input[type="text"]:focus,
+.note-form textarea:focus {
+  outline: none;
+  border-color: #f59e0b;
+  box-shadow: 0 0 0 3px rgba(245, 158, 11, 0.25);
+}
+
+.note-form__check {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-weight: 400;
+}
+
+.note-form__error {
+  color: #b91c1c;
+  font-size: 0.9rem;
+}
+
+.note-form__submit {
+  align-self: flex-start;
+  padding: 10px 18px;
+  border: none;
+  border-radius: 8px;
+  background: #f59e0b;
+  color: #1c1917;
+  font: inherit;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.note-form__submit:hover {
+  background: #d97706;
+}
+
+
+.note-form__submit:disabled {
+  background: #e7e5e4;
+  color: #a8a29e;
+  cursor: not-allowed;
+}

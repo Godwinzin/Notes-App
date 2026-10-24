@@ -1,0 +1,33 @@
+.settings {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  max-width: 400px;
+  background: white;
+  border: 1px solid #e7e5e4;
+  border-radius: 12px;
+  padding: 24px;
+}
+
+.settings label {
+  font-weight: 600;
+  font-size: 0.9rem;
+}
+
+.settings input {
+  padding: 10px 12px;
+  border: 1px solid #d6d3d1;
+  border-radius: 8px;
+  font: inherit;
+}
+
+.settings input:focus {
+  outline: none;
+  border-color: #f59e0b;
+  box-shadow: 0 0 0 3px rgba(245, 158, 11, 0.25);
+}
+
+.settings__hint {
+  color: #a8a29e;
+  font-size: 0.85rem;
+}

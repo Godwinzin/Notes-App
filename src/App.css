@@ -1,0 +1,73 @@
+.app {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 24px;
+}
+
+.note-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 16px;
+  margin-top: 16px;
+}
+
+.toolbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin: 16px 0;
+}
+
+.stats {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.filter-check {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.9rem;
+  cursor: pointer;
+}
+
+.badge {
+  padding: 4px 12px;
+  border-radius: 999px;
+  background: #e7e5e4;
+  font-size: 0.85rem;
+  font-weight: 600;
+}
+
+.badge--pinned {
+  background: #fef3c7;
+  color: #92400e;
+}
+
+.btn-clear {
+  padding: 6px 14px;
+  border: 1px solid #fecaca;
+  border-radius: 8px;
+  background: white;
+  color: #b91c1c;
+  font: inherit;
+  cursor: pointer;
+  transition: background 0.15s ease;
+}
+
+.btn-clear:hover {
+  background: #fef2f2;
+}
+
+.empty {
+  margin-top: 24px;
+  padding: 32px;
+  border: 2px dashed #d6d3d1;
+  border-radius: 12px;
+  text-align: center;
+  color: #78716c;
+}

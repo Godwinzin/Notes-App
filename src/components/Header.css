@@ -1,0 +1,18 @@
+.header {
+  padding: 24px 0 8px;
+}
+
+.header__title {
+  font-size: 2rem;
+  letter-spacing: -0.02em;
+}
+
+.header__title::after {
+  content: "";
+  display: block;
+  width: 48px;
+  height: 4px;
+  margin-top: 8px;
+  border-radius: 2px;
+  background: #f59e0b;
+}
