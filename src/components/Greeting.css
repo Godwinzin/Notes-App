@@ -1,4 +1,4 @@
 .greeting {
-  color: #78716c;
+  color: var(--text-subtle);
   margin-bottom: 8px;
 }

@@ -1,12 +1,14 @@
+import { lazy } from "react"
 import { Routes, Route } from "react-router"
 import Layout from "./components/Layout"
 import NotesPage from "./pages/NotesPage"
-import NotePage from "./pages/NotePage"
-import SettingsPage from "./pages/SettingsPage"
 import NotFoundPage from "./pages/NotFoundPage"
 import useDocumentTitle from "./hooks/useDocumentTitle"
 import { useNotes } from "./context/NotesContext"
 import "./App.css"
+
+const NotePage = lazy(() => import("./pages/NotePage"))
+const SettingsPage = lazy(() => import("./pages/SettingsPage"))
 
 function App() {
   const { notes } = useNotes()

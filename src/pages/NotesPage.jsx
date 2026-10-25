@@ -1,20 +1,49 @@
-import { useState, useMemo } from "react"
+import { useState, useMemo, useRef, useEffect } from "react"
 import Greeting from "../components/Greeting"
 import NoteCard from "../components/NoteCard"
 import NoteForm from "../components/NoteForm"
 import SearchBar from "../components/SearchBar"
+import SortMenu from "../components/SortMenu"
 import useDebounce from "../hooks/useDebounce"
+import useLocalStorage from "../hooks/useLocalStorage"
 import { useNotes } from "../context/NotesContext"
 import { useSettings } from "../context/SettingsContext"
 
 function NotesPage() {
-  const { notes, addNote, togglePin, updateNote, deleteNote, clearNotes } =
-    useNotes()
+  const {
+    notes,
+    addNote,
+    togglePin,
+    updateNote,
+    deleteNote,
+    clearNotes,
+    unpinAll,
+  } = useNotes()
   const { userName } = useSettings()
 
   const [query, setQuery] = useState("")
   const [pinnedOnly, setPinnedOnly] = useState(false)
+  const [sortBy, setSortBy] = useLocalStorage("notes-app:sort", "newest")
   const debouncedQuery = useDebounce(query, 300)
+  const searchRef = useRef(null)
+
+  useEffect(() => {
+    function handleKeyDown(e) {
+      const active = document.activeElement
+      const isTyping =
+        active?.tagName === "INPUT" ||
+        active?.tagName === "TEXTAREA" ||
+        active?.isContentEditable
+
+      if (e.key === "/" && !isTyping && !e.ctrlKey && !e.metaKey && !e.altKey) {
+        e.preventDefault()
+        searchRef.current?.focus()
+      }
+    }
+
+    document.addEventListener("keydown", handleKeyDown)
+    return () => document.removeEventListener("keydown", handleKeyDown)
+  }, [])
 
   const visibleNotes = useMemo(() => {
     const q = debouncedQuery.trim().toLowerCase()
@@ -32,8 +61,14 @@ function NotesPage() {
       )
     }
 
-    return [...result].sort((a, b) => b.pinned - a.pinned)
-  }, [notes, debouncedQuery, pinnedOnly])
+    const ordered = [...result]
+    if (sortBy === "oldest") ordered.reverse()
+    if (sortBy === "title") {
+      ordered.sort((a, b) => a.title.localeCompare(b.title))
+    }
+
+    return ordered.sort((a, b) => b.pinned - a.pinned)
+  }, [notes, debouncedQuery, pinnedOnly, sortBy])
 
   const pinnedCount = notes.filter((note) => note.pinned).length
   const isFiltering = debouncedQuery.trim() !== "" || pinnedOnly
@@ -45,7 +80,7 @@ function NotesPage() {
 
       {notes.length > 0 && (
         <>
-          <SearchBar value={query} onChange={setQuery} />
+          <SearchBar ref={searchRef} value={query} onChange={setQuery} />
 
           <div className="toolbar">
             <div className="stats">
@@ -54,6 +89,11 @@ function NotesPage() {
                 <span className="badge badge--pinned">
                   Pinned: {pinnedCount}
                 </span>
+              )}
+              {pinnedCount > 0 && (
+                <button className="btn-link" onClick={unpinAll}>
+                  Unpin all
+                </button>
               )}
               {isFiltering && (
                 <span className="badge">
@@ -69,9 +109,13 @@ function NotesPage() {
                 Pinned only
               </label>
             </div>
-            <button className="btn-clear" onClick={clearNotes}>
-              Clear all
-            </button>
+
+            <div className="toolbar__actions">
+              <SortMenu value={sortBy} onChange={setSortBy} />
+              <button className="btn-clear" onClick={clearNotes}>
+                Clear all
+              </button>
+            </div>
           </div>
         </>
       )}

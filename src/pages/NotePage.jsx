@@ -1,13 +1,13 @@
-import { useParams, useNavigate, Link } from "react-router"
-import { useNotes } from "../context/NotesContext"
-import "./NotePage.css"
+import { useParams, useNavigate, Link } from "react-router";
+import { useNotes } from "../context/NotesContext";
+import "./NotePage.css";
 
 function NotePage() {
-  const { notes, togglePin, deleteNote } = useNotes()
-  const { id } = useParams()
-  const navigate = useNavigate()
+  const { notes, togglePin, deleteNote } = useNotes();
+  const { id } = useParams();
+  const navigate = useNavigate();
 
-  const note = notes.find((n) => String(n.id) === id)
+  const note = notes.find((n) => String(n.id) === id);
 
   if (!note) {
     return (
@@ -15,11 +15,11 @@ function NotePage() {
         <p>That note doesn’t exist (it may have been deleted).</p>
         <Link to="/">← Back to all notes</Link>
       </div>
-    )
+    );
   }
 
-  function handleDelete() {
-    const deleted = deleteNote(note.id)
+  async function handleDelete() {
+    const deleted = await deleteNote(note.id, note.title)
     if (deleted) navigate("/")
   }
 
@@ -45,7 +45,7 @@ function NotePage() {
         </button>
       </div>
     </article>
-  )
+  );
 }
 
-export default NotePage
+export default NotePage;

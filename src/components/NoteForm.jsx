@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useRef } from "react"
 import useLocalStorage from "../hooks/useLocalStorage";
 import "./NoteForm.css";
 
@@ -6,6 +6,7 @@ const emptyForm = { title: "", content: "", pinned: false };
 const MAX_TITLE = 40;
 
 function NoteForm({ onAddNote }) {
+  const titleRef = useRef(null)
   const [form, setForm] = useLocalStorage("notes-app:draft", emptyForm)
   const [error, setError] = useState("");
 
@@ -34,6 +35,7 @@ function NoteForm({ onAddNote }) {
 
     setForm(emptyForm);
     setError("");
+    titleRef.current?.focus()
   }
 
   return (
@@ -53,6 +55,7 @@ function NoteForm({ onAddNote }) {
         </span>
       </div>
       <input
+        ref={titleRef}
         id="title"
         name="title"
         type="text"

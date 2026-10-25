@@ -1,5 +1,7 @@
 import { Outlet, NavLink } from "react-router"
+import { Suspense } from "react"
 import Header from "./Header"
+import { useSettings } from "../context/SettingsContext"
 import "./Layout.css"
 
 function navClass({ isActive }) {
@@ -7,6 +9,10 @@ function navClass({ isActive }) {
 }
 
 function Layout() {
+  const { resolvedTheme, setTheme } = useSettings()
+  const isDark = resolvedTheme === "dark"
+  const label = isDark ? "Switch to light theme" : "Switch to dark theme"
+
   return (
     <div className="app">
       <Header title="My Notes" />
@@ -18,11 +24,23 @@ function Layout() {
         <NavLink to="/settings" className={navClass}>
           Settings
         </NavLink>
+
+        <button
+          type="button"
+          className="theme-toggle"
+          onClick={() => setTheme(isDark ? "light" : "dark")}
+          aria-label={label}
+          title={label}
+        >
+          {isDark ? "☀️" : "🌙"}
+        </button>
       </nav>
 
-      <main>
+     <main>
+      <Suspense fallback={<p className="loading">Loading…</p>}>
         <Outlet />
-      </main>
+      </Suspense>
+    </main>
     </div>
   )
 }

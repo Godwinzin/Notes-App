@@ -14,5 +14,5 @@
   height: 4px;
   margin-top: 8px;
   border-radius: 2px;
-  background: #f59e0b;
+  background: var(--accent);
 }

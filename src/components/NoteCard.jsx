@@ -1,5 +1,6 @@
-import { useState } from "react";
+import { useState, memo  } from "react";
 import { Link } from "react-router";
+import { useConfirm } from "../context/ConfirmContext";
 import "./NoteCard.css";
 
 function NoteCard({
@@ -12,6 +13,7 @@ function NoteCard({
   onDelete,
   onSave,
 }) {
+  const confirm = useConfirm();
   const [isEditing, setIsEditing] = useState(false);
   const [draftTitle, setDraftTitle] = useState(title);
   const [draftContent, setDraftContent] = useState(content);
@@ -28,7 +30,20 @@ function NoteCard({
     setIsEditing(false);
   }
 
-  function handleCancel() {
+  async function handleCancel() {
+    const hasChanges =
+      draftTitle.trim() !== title || draftContent.trim() !== content;
+
+    if (hasChanges) {
+      const discard = await confirm({
+        title: "Discard changes?",
+        message: "Your edits to this note will be lost.",
+        confirmText: "Discard",
+        danger: true,
+      });
+      if (!discard) return;
+    }
+
     setIsEditing(false);
   }
 
@@ -90,7 +105,7 @@ function NoteCard({
           {pinned ? "Unpin" : "Pin"}
         </button>
         <button onClick={startEditing}>Edit</button>
-        <button className="btn-danger" onClick={() => onDelete(id)}>
+        <button className="btn-danger" onClick={() => onDelete(id, title)}>
           Delete
         </button>
       </div>
@@ -98,4 +113,4 @@ function NoteCard({
   );
 }
 
-export default NoteCard;
+export default memo(NoteCard);
