@@ -58,3 +58,10 @@
   background: var(--accent-soft-2);
   font-weight: 600;
 }
+
+@media (pointer: coarse) {
+  .sort-menu__button,.sort-menu__item{
+    min-height: 44px;
+    padding: 8px 14px;
+  }
+}

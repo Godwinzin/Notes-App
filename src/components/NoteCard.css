@@ -3,6 +3,8 @@
   border: 1px solid var(--border);
   border-radius: 12px;
   padding: 16px;
+  min-width: 0;
+  overflow-wrap: anywhere;
   box-shadow: var(--shadow-sm);
   transition: transform 0.15s ease, box-shadow 0.15s ease;
 }
@@ -81,6 +83,7 @@
 
 .note-card__actions {
   display: flex;
+  flex-wrap: wrap;
   gap: 8px;
   margin-top: 12px;
 }
@@ -127,4 +130,18 @@
 
 .note-card__actions .btn-primary:hover {
   background: var(--accent-hover);
+}
+.note-card__tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  list-style: none;
+  margin-bottom: 12px;
+}
+
+@media (pointer: coarse) {
+  .note-card__actions button {
+    min-height: 44px;
+    padding: 8px 14px;
+  }
 }

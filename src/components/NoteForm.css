@@ -96,3 +96,7 @@
   color: var(--text-faint);
   cursor: not-allowed;
 }
+.note-form__optional {
+  font-weight: 400;
+  color: var(--text-subtle);
+}

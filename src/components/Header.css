@@ -16,3 +16,8 @@
   border-radius: 2px;
   background: var(--accent);
 }
+@media (max-width: 480px) {
+  .header__title {
+    font-size: 1.6rem;
+  }
+}

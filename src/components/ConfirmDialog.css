@@ -95,3 +95,10 @@
 .confirm__actions .confirm__ok--danger:hover {
   background: var(--danger-solid-hover);
 }
+
+@media (pointer: coarse) {
+  .confirm__actions button {
+    min-height: 44px;
+    padding: 8px 14px;
+  }
+}

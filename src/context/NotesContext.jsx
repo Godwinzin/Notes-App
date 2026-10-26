@@ -31,7 +31,7 @@ export function NotesProvider({ children }) {
     localStorage.setItem(STORAGE_KEY, JSON.stringify(notes))
   }, [notes])
 
-  const addNote = useCallback(({ title, content, pinned }) => {
+  const addNote = useCallback(({ title, content, pinned, tags = [] }) => {
     const note = {
       id: crypto.randomUUID(),
       date: new Date().toLocaleDateString("en-GB", {
@@ -42,6 +42,7 @@ export function NotesProvider({ children }) {
       title,
       content,
       pinned,
+      tags,
     }
     dispatch({ type: "added", note })
   }, [])

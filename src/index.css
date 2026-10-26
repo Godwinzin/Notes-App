@@ -11,8 +11,8 @@
 
   --text: #1c1917;
   --text-muted: #57534e;
-  --text-subtle: #78716c;
-  --text-faint: #a8a29e;
+  --text-subtle: #6b645e;
+  --text-faint: #6f6963;;
 
   --accent: #f59e0b;
   --accent-hover: #d97706;
@@ -46,7 +46,7 @@
   --text: #fafaf9;
   --text-muted: #d6d3d1;
   --text-subtle: #a8a29e;
-  --text-faint: #78716c;
+  --text-faint: #8a847e;
 
   --accent: #f59e0b;
   --accent-hover: #fbbf24;
@@ -94,4 +94,16 @@ body:has(dialog[open]) {
     transition: background-color 0.25s ease, color 0.25s ease,
       border-color 0.25s ease, box-shadow 0.25s ease !important;
   }
+}
+
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  padding: 0;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+  border: 0;
 }

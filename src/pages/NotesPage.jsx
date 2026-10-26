@@ -4,6 +4,7 @@ import NoteCard from "../components/NoteCard"
 import NoteForm from "../components/NoteForm"
 import SearchBar from "../components/SearchBar"
 import SortMenu from "../components/SortMenu"
+import TagFilter from "../components/TagFilter"
 import useDebounce from "../hooks/useDebounce"
 import useLocalStorage from "../hooks/useLocalStorage"
 import { useNotes } from "../context/NotesContext"
@@ -23,6 +24,7 @@ function NotesPage() {
 
   const [query, setQuery] = useState("")
   const [pinnedOnly, setPinnedOnly] = useState(false)
+  const [activeTag, setActiveTag] = useState("")
   const [sortBy, setSortBy] = useLocalStorage("notes-app:sort", "newest")
   const debouncedQuery = useDebounce(query, 300)
   const searchRef = useRef(null)
@@ -45,12 +47,32 @@ function NotesPage() {
     return () => document.removeEventListener("keydown", handleKeyDown)
   }, [])
 
+  const allTags = useMemo(() => {
+    const counts = new Map()
+    for (const note of notes) {
+      for (const tag of note.tags ?? []) {
+        counts.set(tag, (counts.get(tag) ?? 0) + 1)
+      }
+    }
+    return [...counts]
+      .map(([name, count]) => ({ name, count }))
+      .sort((a, b) => b.count - a.count || a.name.localeCompare(b.name))
+  }, [notes])
+
+  const currentTag = allTags.some((tag) => tag.name === activeTag)
+    ? activeTag
+    : ""
+
   const visibleNotes = useMemo(() => {
     const q = debouncedQuery.trim().toLowerCase()
     let result = notes
 
     if (pinnedOnly) {
       result = result.filter((note) => note.pinned)
+    }
+
+    if (currentTag) {
+      result = result.filter((note) => (note.tags ?? []).includes(currentTag))
     }
 
     if (q !== "") {
@@ -68,10 +90,11 @@ function NotesPage() {
     }
 
     return ordered.sort((a, b) => b.pinned - a.pinned)
-  }, [notes, debouncedQuery, pinnedOnly, sortBy])
+  }, [notes, debouncedQuery, pinnedOnly, currentTag, sortBy])
 
   const pinnedCount = notes.filter((note) => note.pinned).length
-  const isFiltering = debouncedQuery.trim() !== "" || pinnedOnly
+  const isFiltering =
+    debouncedQuery.trim() !== "" || pinnedOnly || currentTag !== ""
 
   return (
     <>
@@ -81,6 +104,7 @@ function NotesPage() {
       {notes.length > 0 && (
         <>
           <SearchBar ref={searchRef} value={query} onChange={setQuery} />
+          <TagFilter tags={allTags} active={currentTag} onSelect={setActiveTag} />
 
           <div className="toolbar">
             <div className="stats">
@@ -96,7 +120,7 @@ function NotesPage() {
                 </button>
               )}
               {isFiltering && (
-                <span className="badge">
+                <span className="badge" role="status">
                   Showing {visibleNotes.length} of {notes.length}
                 </span>
               )}
@@ -137,9 +161,11 @@ function NotesPage() {
             content={note.content}
             date={note.date}
             pinned={note.pinned}
+            tags={note.tags}
             onTogglePin={togglePin}
             onDelete={deleteNote}
             onSave={updateNote}
+            onTagClick={setActiveTag}
           />
         ))}
       </div>

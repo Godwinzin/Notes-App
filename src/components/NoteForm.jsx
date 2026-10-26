@@ -1,40 +1,45 @@
 import { useState, useRef } from "react"
-import useLocalStorage from "../hooks/useLocalStorage";
-import "./NoteForm.css";
+import useLocalStorage from "../hooks/useLocalStorage"
+import { parseTags } from "../utils/tags"
+import "./NoteForm.css"
 
-const emptyForm = { title: "", content: "", pinned: false };
-const MAX_TITLE = 40;
+const MAX_TITLE = 40
+const emptyForm = { title: "", content: "", pinned: false, tags: "" }
 
 function NoteForm({ onAddNote }) {
-  const titleRef = useRef(null)
   const [form, setForm] = useLocalStorage("notes-app:draft", emptyForm)
-  const [error, setError] = useState("");
+  const [error, setError] = useState("")
+  const titleRef = useRef(null)
+
+  const tagsText = form.tags ?? ""
+  const previewTags = parseTags(tagsText)
 
   function handleChange(e) {
-    const { name, value, type, checked } = e.target;
+    const { name, value, type, checked } = e.target
     setForm((prev) => ({
       ...prev,
       [name]: type === "checkbox" ? checked : value,
-    }));
-    setError("");
+    }))
+    setError("")
   }
 
   function handleSubmit(e) {
-    e.preventDefault();
+    e.preventDefault()
 
     if (!form.title.trim()) {
-      setError("Please give your note a title.");
-      return;
+      setError("Please give your note a title.")
+      return
     }
 
     onAddNote({
       title: form.title.trim(),
       content: form.content.trim(),
       pinned: form.pinned,
-    });
+      tags: parseTags(tagsText),
+    })
 
-    setForm(emptyForm);
-    setError("");
+    setForm(emptyForm)
+    setError("")
     titleRef.current?.focus()
   }
 
@@ -75,6 +80,27 @@ function NoteForm({ onAddNote }) {
         placeholder="Write something..."
       />
 
+      <label htmlFor="tags">
+        Tags <span className="note-form__optional">(optional, separated by commas)</span>
+      </label>
+      <input
+        id="tags"
+        name="tags"
+        type="text"
+        value={tagsText}
+        onChange={handleChange}
+        placeholder="e.g. farm, ideas"
+      />
+      {previewTags.length > 0 && (
+        <ul className="note-card__tags" aria-label="Tags preview">
+          {previewTags.map((tag) => (
+            <li key={tag}>
+              <span className="tag tag--static">#{tag}</span>
+            </li>
+          ))}
+        </ul>
+      )}
+
       <label className="note-form__check">
         <input
           type="checkbox"
@@ -85,7 +111,11 @@ function NoteForm({ onAddNote }) {
         Pin this note
       </label>
 
-      {error && <p className="note-form__error">{error}</p>}
+      {error && (
+        <p className="note-form__error" role="alert">
+          {error}
+        </p>
+      )}
 
       <button
         type="submit"
@@ -95,7 +125,7 @@ function NoteForm({ onAddNote }) {
         Add note
       </button>
     </form>
-  );
+  )
 }
 
-export default NoteForm;
+export default NoteForm

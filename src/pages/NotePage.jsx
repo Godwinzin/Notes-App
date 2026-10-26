@@ -1,5 +1,6 @@
 import { useParams, useNavigate, Link } from "react-router";
 import { useNotes } from "../context/NotesContext";
+import PinIcon from "../components/PinIcon"
 import "./NotePage.css";
 
 function NotePage() {
@@ -30,10 +31,25 @@ function NotePage() {
       </Link>
 
       <h2 className="note-page__title">
-        {note.pinned && <span className="note-page__pin">📌</span>}
+        {note.pinned && (
+          <span className="note-page__pin">
+            <PinIcon filled />
+            <span className="visually-hidden">Pinned: </span>
+          </span>
+        )}
         {note.title}
       </h2>
+      
       <p className="note-page__date">{note.date}</p>
+      {note.tags?.length > 0 && (
+        <ul className="note-card__tags">
+          {note.tags.map((tag) => (
+            <li key={tag}>
+              <span className="tag tag--static">#{tag}</span>
+            </li>
+          ))}
+        </ul>
+      )}
       <p className="note-page__content">{note.content}</p>
 
       <div className="note-card__actions">
