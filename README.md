@@ -2,8 +2,7 @@
 
 A fast, private, accessible notes app built with React. Notes are stored in your browser, so nothing is sent to a server.
 
-**Live demo:** [\[your-deployed-url\]](https://memonestnotes.vercel.app/)
-
+**Live demo:** [[\\[your-deployed-url\\]](https://memonestnotes.vercel.app/)]
 ![My Notes in light and dark mode](docs/screenshot.png)
 
 ## Features
