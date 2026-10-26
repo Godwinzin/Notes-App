@@ -2,7 +2,7 @@
 
 A fast, private, accessible notes app built with React. Notes are stored in your browser, so nothing is sent to a server.
 
-**Live demo:** [[\\[your-deployed-url\\]](https://memonestnotes.vercel.app/)]
+**Live demo:** [Open the App](https://memonestnotes.vercel.app/)
 ![My Notes in light and dark mode](docs/screenshot.png)
 
 ## Features
@@ -24,7 +24,7 @@ React 19, Vite, React Router, plain CSS with custom properties, Vitest and React
 Requires Node 24 (22.22 or newer also works).
 
 ```bash
-git clone [https://github.com/Godwinzin/Notes-App.git]
+git clone https://github.com/Godwinzin/Notes-App.git
 cd notes-app
 npm install
 npm run dev
@@ -45,4 +45,4 @@ Notes are stored only in your browser, so they don't sync between devices, and c
 
 ## License
 
-MIT © [Godwin]
+MIT © Godwin
